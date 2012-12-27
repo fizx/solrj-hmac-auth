@@ -41,6 +41,8 @@ public class AuthInterceptor implements HttpRequestInterceptor {
 			throw new RuntimeException(e);
 		}
 		byte[] bytes = mac.doFinal(websolrSecret.getBytes());
+
+		// Bytes to hex-string
 		StringBuffer result = new StringBuffer();
 		for (byte b : bytes) {
 			result.append(String.format("%02X", b));
