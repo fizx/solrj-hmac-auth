@@ -1,0 +1,9 @@
+Prerequisites:
+- Java 6
+- Maven 2
+
+Build: 
+- mvn package
+
+Run:
+java -jar target/solrj-hmac-auth-0.0.1-SNAPSHOT-jar-with-dependencies.jar "SECRET_TOKEN" "SOLR_URL" "QUERY1" "QUERY2"
