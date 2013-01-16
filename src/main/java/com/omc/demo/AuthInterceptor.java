@@ -27,25 +27,26 @@ public class AuthInterceptor implements HttpRequestInterceptor {
 			throws HttpException, IOException {
 		Long time = System.currentTimeMillis() / 1000;
 		Long nonce = random.nextLong();
-		String salt = time + "" + nonce;
+		String value = time + "" + nonce;
 		Mac mac;
 		try {
 			mac = Mac.getInstance("HmacSHA1");
 		} catch (NoSuchAlgorithmException e) {
 			throw new RuntimeException(e);
 		}
-		SecretKeySpec secret = new SecretKeySpec(salt.getBytes(), "HmacSHA1");
+		SecretKeySpec secret = new SecretKeySpec(websolrSecret.getBytes(),
+				"HmacSHA1");
 		try {
 			mac.init(secret);
 		} catch (InvalidKeyException e) {
 			throw new RuntimeException(e);
 		}
-		byte[] bytes = mac.doFinal(websolrSecret.getBytes());
+		byte[] bytes = mac.doFinal(value.getBytes());
 
 		// Bytes to hex-string
 		StringBuffer result = new StringBuffer();
 		for (byte b : bytes) {
-			result.append(String.format("%02X", b));
+			result.append(String.format("%02x", b));
 		}
 		String digest = result.toString();
 
